@@ -1,4 +1,4 @@
-# vote_app
+# SpellsDeck
 
 A new Flutter project.
 
