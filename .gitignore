@@ -11,3 +11,7 @@ pubspec.lock
 # Directory created by dartdoc
 # If you don't generate documentation locally you can remove this line.
 doc/api/
+
+spell_deck/android/app/google-services\.json
+
+spell_deck/ios/Runner/GoogleService-Info\.plist
