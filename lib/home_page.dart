@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:vote_app/all_spells.dart';
 import 'package:vote_app/detail.dart';
 import 'package:vote_app/services/authentication.dart';
 
@@ -30,10 +31,15 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       body: _buildBody(context),
       floatingActionButton: FloatingActionButton.extended(
-        onPressed: () {},
+        onPressed: () => Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => AllSpells(userId: widget.userId)),
+              ),
         icon: Icon(Icons.add),
         label: Text("Add"),
       ),
+
     );
   }
 
@@ -83,26 +89,28 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
         child: ListTile(
           title: Text(spell.name),
-          onTap: () => Navigator.push(
+          onTap: () =>
+              Navigator.push(
                 context,
                 MaterialPageRoute(
                     builder: (context) => SecondRoute(spell: spell)),
-              ),
-          onLongPress: () => _deleteSpell(context, spell.reference)),
+              )
+            ,
+          onLongPress: () => _deleteSpell(context, spell)),
         ),
       );
   }
 
-  void _deleteSpell(BuildContext context, DocumentReference reference) {
-    _deleteSpellFromFirebase(reference);
+  void _deleteSpell(BuildContext context, Spell spell) {
+    _deleteSpellFromFirebase(spell.reference);
 
     final scaffold = Scaffold.of(context);
     scaffold.showSnackBar(
       SnackBar(
-        content: const Text('Spell deleted'),
+      content: Text(spell.name + " eliminata"),
         action: SnackBarAction(
-            label: 'UNDO',
-            onPressed: () => _UNDOdeleteSpellFromFirebase(reference)),
+            label: 'Annulla',
+            onPressed: () => _UNDOdeleteSpellFromFirebase(spell.reference)),
       ),
     );
   }
@@ -142,6 +150,7 @@ class Spell {
   final String range;
   final String composition;
   final String level;
+  final String classe;
   final DocumentReference reference;
   var users;
 
@@ -153,7 +162,9 @@ class Spell {
         assert(map['tempoLancio'] != null),
         assert(map['componenti'] != null),
         assert(map['users'] != null),
+        assert(map['classe'] != null),
         name = map['nome'],
+        classe = map['classe'],
         description = map['descrizione'],
         duration = map['durata'],
         range = map['gittata'],
