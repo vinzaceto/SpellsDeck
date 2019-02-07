@@ -32,9 +32,7 @@ class MyApp extends StatelessWidget {
     return new MaterialApp(
         title: 'Flutter login demo',
         debugShowCheckedModeBanner: false,
-        theme: new ThemeData(
-          primarySwatch: Colors.blue,
-        ),
+        theme: new ThemeData.dark(),
         home: new RootPage(auth: new Auth()));
   }
 }

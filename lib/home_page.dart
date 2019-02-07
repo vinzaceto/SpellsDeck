@@ -32,14 +32,13 @@ class _MyHomePageState extends State<MyHomePage> {
       body: _buildBody(context),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () => Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => AllSpells(userId: widget.userId)),
-              ),
+              context,
+              MaterialPageRoute(
+                  builder: (context) => AllSpells(userId: widget.userId)),
+            ),
         icon: Icon(Icons.add),
         label: Text("Add"),
       ),
-
     );
   }
 
@@ -82,23 +81,26 @@ class _MyHomePageState extends State<MyHomePage> {
     return Padding(
       key: ValueKey(spell.name),
       padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-      child: Container(
-        decoration: BoxDecoration(
-          border: Border.all(color: Colors.grey),
-          borderRadius: BorderRadius.circular(5.0),
-        ),
-        child: ListTile(
-          title: Text(spell.name),
-          onTap: () =>
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => SecondRoute(spell: spell)),
-              )
-            ,
-          onLongPress: () => _deleteSpell(context, spell)),
-        ),
-      );
+      child: Dismissible(
+          key: Key(spell.name),
+          onDismissed: (direction) {
+            _deleteSpell(context, spell);
+          },
+          child: Container(
+            decoration: BoxDecoration(
+              border: Border.all(color: Colors.grey),
+              borderRadius: BorderRadius.circular(5.0),
+            ),
+            child: ListTile(
+                title: Text(spell.name),
+                onTap: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => SecondRoute(spell: spell)),
+                    ),
+                onLongPress: () => _deleteSpell(context, spell)),
+          )),
+    );
   }
 
   void _deleteSpell(BuildContext context, Spell spell) {
@@ -107,9 +109,14 @@ class _MyHomePageState extends State<MyHomePage> {
     final scaffold = Scaffold.of(context);
     scaffold.showSnackBar(
       SnackBar(
-      content: Text(spell.name + " eliminata"),
+        backgroundColor: Colors.white,
+        content: Text(
+          spell.name + " eliminata",
+          style: TextStyle(color: Colors.black),
+        ),
         action: SnackBarAction(
             label: 'Annulla',
+            textColor: Colors.red,
             onPressed: () => _UNDOdeleteSpellFromFirebase(spell.reference)),
       ),
     );

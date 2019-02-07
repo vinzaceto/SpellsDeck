@@ -19,7 +19,6 @@ class AllSpells extends StatefulWidget {
 }
 
 class _AllSpellState extends State<AllSpells> {
-
   final GlobalKey<ScaffoldState> _scaffoldkey = new GlobalKey<ScaffoldState>();
 
   @override
@@ -100,11 +99,17 @@ class _AllSpellState extends State<AllSpells> {
   void _addSpell(Spell spell) {
     _addSpelltoUser(spell.reference);
     final snackBarContent = SnackBar(
-      content: Text(spell.name + " aggiunta"),
+      backgroundColor: Colors.white,
+      content: Text(
+        spell.name + " aggiunta",
+        style: TextStyle(color: Colors.black),
+      ),
       action: SnackBarAction(
-          label: 'Annulla', onPressed: () => _UNDOaddSpelltoUser(spell.reference)),
+          label: 'Annulla',
+          textColor: Colors.red,
+          onPressed: () => _UNDOaddSpelltoUser(spell.reference)),
     );
-  _scaffoldkey.currentState.showSnackBar(snackBarContent);
+    _scaffoldkey.currentState.showSnackBar(snackBarContent);
   }
 
   void _addSpelltoUser(DocumentReference reference) {
