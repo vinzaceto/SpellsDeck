@@ -58,7 +58,6 @@ class _LoginSignUpPageState extends State<LoginSignUpPage> {
         if (userId.length > 0 && userId != null) {
           widget.onSignedIn();
         }
-
       } catch (e) {
         print('Error: $e');
         setState(() {
@@ -98,26 +97,30 @@ class _LoginSignUpPageState extends State<LoginSignUpPage> {
   @override
   Widget build(BuildContext context) {
     _isIos = Theme.of(context).platform == TargetPlatform.iOS;
-    return new Scaffold(
-        appBar: new AppBar(
-          title: new Text('Spell Deck'),
-        ),
-        body: Stack(
-          children: <Widget>[
-            _showBody(),
-            _showCircularProgress(),
-          ],
-        ));
+    return new Container(
+        child: Scaffold(
+            appBar: new AppBar(
+              title: new Text('Spell Deck'),
+            ),
+            body: Stack(
+              children: <Widget>[
+                _showBody(),
+                _showCircularProgress(),
+              ],
+            )));
   }
 
-  Widget _showCircularProgress(){
+  Widget _showCircularProgress() {
     if (_isLoading) {
       return Center(child: CircularProgressIndicator());
-    } return Container(height: 0.0, width: 0.0,);
-
+    }
+    return Container(
+      height: 0.0,
+      width: 0.0,
+    );
   }
 
-  Widget _showBody(){
+  Widget _showBody() {
     return new Container(
         padding: EdgeInsets.all(16.0),
         child: new Form(
@@ -160,8 +163,8 @@ class _LoginSignUpPageState extends State<LoginSignUpPage> {
         padding: EdgeInsets.fromLTRB(0.0, 70.0, 0.0, 0.0),
         child: CircleAvatar(
           backgroundColor: Colors.transparent,
-          radius: 48.0,
-          child: Image.asset('assets/playing_cards.png'),
+          radius: 70.0,
+          child: Image.asset('assets/cards.png'),
         ),
       ),
     );
@@ -179,6 +182,9 @@ class _LoginSignUpPageState extends State<LoginSignUpPage> {
             icon: new Icon(
               Icons.mail,
               color: Colors.grey,
+            ),
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(32.0)
             )),
         validator: (value) => value.isEmpty ? 'Email can\'t be empty' : null,
         onSaved: (value) => _email = value,
@@ -198,6 +204,9 @@ class _LoginSignUpPageState extends State<LoginSignUpPage> {
             icon: new Icon(
               Icons.lock,
               color: Colors.grey,
+            ),
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(32.0)
             )),
         validator: (value) => value.isEmpty ? 'Password can\'t be empty' : null,
         onSaved: (value) => _password = value,
@@ -209,10 +218,10 @@ class _LoginSignUpPageState extends State<LoginSignUpPage> {
     return new FlatButton(
       child: _formMode == FormMode.LOGIN
           ? new Text('Create an account',
-          style: new TextStyle(fontSize: 18.0, fontWeight: FontWeight.w300))
+              style: new TextStyle(fontSize: 18.0, fontWeight: FontWeight.w300))
           : new Text('Have an account? Sign in',
-          style:
-          new TextStyle(fontSize: 18.0, fontWeight: FontWeight.w300)),
+              style:
+                  new TextStyle(fontSize: 18.0, fontWeight: FontWeight.w300)),
       onPressed: _formMode == FormMode.LOGIN
           ? _changeFormToSignUp
           : _changeFormToLogin,
@@ -223,16 +232,17 @@ class _LoginSignUpPageState extends State<LoginSignUpPage> {
     return new Padding(
         padding: EdgeInsets.fromLTRB(0.0, 45.0, 0.0, 0.0),
         child: SizedBox(
-          height: 40.0,
+          height: 50.0,
           child: new RaisedButton(
             elevation: 5.0,
-            shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(30.0)),
-            color: Colors.blue,
+            shape: new RoundedRectangleBorder(
+                borderRadius: new BorderRadius.circular(32.0)),
+            color: ThemeData.dark().accentColor,
             child: _formMode == FormMode.LOGIN
                 ? new Text('Login',
-                style: new TextStyle(fontSize: 20.0, color: Colors.white))
+                    style: new TextStyle(fontSize: 20.0, color: Colors.white))
                 : new Text('Create account',
-                style: new TextStyle(fontSize: 20.0, color: Colors.white)),
+                    style: new TextStyle(fontSize: 20.0, color: Colors.white)),
             onPressed: _validateAndSubmit,
           ),
         ));
